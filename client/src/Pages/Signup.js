@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+const BACKEND_URL = "http://127.0.0.1:5000";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userType: "",
     firstName: "",
@@ -16,6 +20,51 @@ const Signup = () => {
     phone: "",
     password: "",
   });
+
+  const [countries, setCountries] = useState([]);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+
+  useEffect(() => {
+    // Fetch countries on component mount
+    fetch("https://restcountries.com/v3.1/all")
+      .then((response) => response.json())
+      .then((data) => setCountries(data))
+      .catch((error) => console.error("Error fetching countries:", error));
+  }, []);
+
+  const handleCountryChange = async (e) => {
+    const selectedCountry = e.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      country: selectedCountry,
+      state: "",
+      city: "",
+    }));
+
+    // Fetch states for the selected country
+    try {
+      const response = await fetch(
+        `https://restcountries.com/v3.1/name/${selectedCountry}?fields=states`
+      );
+      const countryData = await response.json();
+      const countryStates = countryData[0]?.states || [];
+
+      setStates(countryStates);
+    } catch (error) {
+      console.log("Error fetching states:", error);
+    }
+  };
+
+  const handleStateChange = (e) => {
+    const selectedState = e.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      country: prevData.country,
+      state: selectedState,
+      city: "",
+    }));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +84,7 @@ const Signup = () => {
 
     // Make a POST request to your backend
     try {
-      const response = await fetch("/api/auth/signup", {
+      const response = await fetch(`${BACKEND_URL}/api/auth/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,8 +94,8 @@ const Signup = () => {
 
       if (response.ok) {
         // User registered successfully
-        // You can redirect to the login page or handle it as needed
         console.log("User registered successfully");
+        navigate("/login");
       } else {
         // Handle registration error
         const data = await response.json();
@@ -65,9 +114,6 @@ const Signup = () => {
       alert("Invalid email address");
       return false;
     }
-
-    // Add similar validation for other fields
-    // For example, you can add validation for password strength
 
     return true;
   };
@@ -150,43 +196,65 @@ const Signup = () => {
           <label className="block text-sm font-medium text-gray-600">
             Country
           </label>
-          <input
-            type="text"
+          <select
             name="country"
             value={formData.country}
-            onChange={handleChange}
+            onChange={handleCountryChange}
             className="mt-1 p-2 w-full border rounded-md"
             required
-          />
+          >
+            <option value="">Select Country</option>
+            {countries.map((country) => (
+              <option key={country.name.common} value={country.name.common}>
+                {country.name.common}
+              </option>
+            ))}
+          </select>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            State
-          </label>
-          <input
-            type="text"
-            name="state"
-            value={formData.state}
-            onChange={handleChange}
-            className="mt-1 p-2 w-full border rounded-md"
-            required
-          />
-        </div>
+        {formData.country && (
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              State
+            </label>
+            <select
+              name="state"
+              value={formData.state}
+              onChange={handleStateChange}
+              className="mt-1 p-2 w-full border rounded-md"
+              required
+            >
+              <option value="">Select State</option>
+              {states.map((state, index) => (
+                <option key={index} value={state}>
+                  {state}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
-        <div>
-          <label className="block text-sm font-medium text-gray-600">
-            City
-          </label>
-          <input
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            className="mt-1 p-2 w-full border rounded-md"
-            required
-          />
-        </div>
+        {formData.state && (
+          <div>
+            <label className="block text-sm font-medium text-gray-600">
+              City
+            </label>
+            <select
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border rounded-md"
+              required
+            >
+              <option value="">Select City</option>
+              {cities.map((city, index) => (
+                <option key={index} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <div>
           <label className="block text-sm font-medium text-gray-600">

@@ -17,6 +17,12 @@ const userSchema = new mongoose.Schema({
   fax: { type: String },
   phone: { type: String },
   password: { type: String, required: true },
+  cart: [
+    {
+      product: { type: Number, ref: "Product" },
+      quantity: { type: Number, default: 1 },
+    },
+  ],
 });
 
 const User = mongoose.model("User", userSchema);

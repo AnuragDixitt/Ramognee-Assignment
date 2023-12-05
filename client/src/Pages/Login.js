@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+const BACKEND_URL = "http://127.0.0.1:5000";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -24,7 +27,7 @@ const Login = () => {
 
     // Make a POST request to your backend for login
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,11 +37,15 @@ const Login = () => {
 
       if (response.ok) {
         // Login successful
-        // You can redirect to the dashboard or handle it as needed
         console.log("Login successful");
+        localStorage.setItem("Login", "true");
+        localStorage.setItem("Email", formData.email);
+        navigate("/products");
       } else {
         // Handle login error
         const data = await response.json();
+        localStorage.setItem("Login", "false");
+
         console.error("Login error:", data.message);
       }
     } catch (error) {
@@ -54,9 +61,6 @@ const Login = () => {
       alert("Invalid email address");
       return false;
     }
-
-    // Add similar validation for other fields
-    // For example, you can add validation for password strength
 
     return true;
   };

@@ -2,6 +2,7 @@ import React from "react";
 import AddtoCartButton from "./AddtoCartButton";
 
 const ProductCard = ({ data }) => {
+  // console.log(data);
   return (
     <div className="productcard w-64 flex flex-col justify-center items-center  ">
       <div className="image h-80 w-full flex justify-center items-center overflow-hidden bg-slate-700 ">
@@ -24,7 +25,7 @@ const ProductCard = ({ data }) => {
         </div>
       </div>
       <div className="w-full  overflow-hidden">
-        <AddtoCartButton />
+        <AddtoCartButton data={data} />
       </div>
     </div>
   );
