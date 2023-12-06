@@ -24,7 +24,7 @@ const ProductCard = ({ data }) => {
           </div>
         </div>
       </div>
-      <div className="w-full  overflow-hidden">
+      <div className="w-full h-36  overflow-hidden">
         <AddtoCartButton data={data} />
       </div>
     </div>

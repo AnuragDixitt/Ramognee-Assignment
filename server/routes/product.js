@@ -34,7 +34,7 @@ router.post("/add", async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    console.log(id);
+    // console.log(id);
     // Check if the product is already in the user's cart
     const cartItem = user.cart.find((item) => item.product === id);
 
