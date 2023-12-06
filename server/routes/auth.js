@@ -3,6 +3,10 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Otp = require("../models/Otp");
+const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const isPasswordValid = (password) => {
   //Password should have at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character
@@ -95,6 +99,111 @@ router.post("/login", async (req, res) => {
     console.error("Error logging in the user: ", error);
     res.status(500).json({ message: "Internal server error" });
   }
+});
+
+async function changePassword(req, res) {
+  var data = await Otp.find({ email: req.body.email, code: req.body.OTP });
+  data = data[0];
+  const response = {};
+  if (data == undefined) {
+    response.message = "Invalid OTP!!";
+    response.status = 3;
+    res.json(response);
+    return;
+  } else {
+    if (data) {
+      let currentTime = new Date().getTime();
+      let diff = data.expireIn - currentTime;
+      if (diff < 0) {
+        response.message = "OTP Expired";
+        response.status = 0;
+        res.status(200).json(response);
+      } else {
+        email = data.email;
+        User.findOne({ email: email })
+          .then(async (users) => {
+            const salt = await bcrypt.genSalt();
+            const pass = await bcrypt.hash(req.body.Password, salt);
+            users.password = pass;
+            users.save();
+            response.message = "Password Changed Successfully";
+            response.status = 1;
+            res.status(200).json(response);
+          })
+          .catch((err) => {
+            response.message = "Something went wrong!!";
+            response.status = 2;
+            res.json(response);
+          });
+      }
+    }
+  }
+}
+
+async function emailSend(req, res) {
+  const response = {};
+  email = req.body.email;
+  await User.findOne({ email: email })
+    .then(async (users) => {
+      if (users === null) {
+        response.status = 0;
+        response.message = "Email Not Found";
+        res.json(response);
+      } else {
+        let otpcode = Math.floor(Math.random() * 10000 + 1);
+        let otpData = new Otp({
+          email: email,
+          code: otpcode,
+          expireIn: new Date().getTime() + 120 * 1000,
+        });
+        let otpResponse = await otpData.save();
+        mailer(email, otpData.code);
+
+        response.message = "Mail sent";
+        response.status = 1;
+        res.status(200).json(response);
+      }
+    })
+    .catch((err) => {
+      response.message = "Something went wrong";
+      response.status = 2;
+      res.json(response);
+    });
+}
+
+function mailer(email, otp) {
+  var transporter = nodemailer.createTransport({
+    service: "gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.MAIL,
+      pass: process.env.MAIL_PASSWORD,
+    },
+  });
+
+  var mailOptions = {
+    from: process.env.MAIL,
+    to: `${email}`,
+    subject: "Reset password LINK",
+    text: "Reset your password using this OTP: " + `${otp}`,
+  };
+
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Email sent");
+    }
+  });
+}
+
+router.post("/generate-otp", function (req, res) {
+  emailSend(req, res);
+});
+
+router.post("/reset-password", function (req, res) {
+  changePassword(req, res);
 });
 
 module.exports = router;

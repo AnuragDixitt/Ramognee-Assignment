@@ -2,35 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import ShoppingCartIcon from "../assets/cart.png"; // Import your cart icon
+import { useAuth } from "./AuthContext";
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("Login") === "true"
-  );
+  const { state, logout } = useAuth();
+  console.log(state);
+  const isLoggedIn = state.isLoggedIn;
   const [userProducts, setUserProducts] = useState([]); // Assuming you have a state for user's products
   const navigate = useNavigate();
 
-  // useEffect to update isLoggedIn and userProducts when localStorage changes
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("Login") === "true");
-
-    // Fetch or set user products based on your implementation
-    // Example: Fetch user products from your backend
-    if (isLoggedIn) {
-      // Replace this with your actual logic to fetch user products
-      // setUserProducts(fetchUserProducts());
-    }
-  }, [isLoggedIn]); // Trigger useEffect when isLoggedIn changes
-
   const handleLogout = () => {
-    // Perform logout logic, clear localStorage or perform any necessary actions
     localStorage.setItem("Login", "false");
-
-    // Redirect to the home page after logout
+    logout(state.userEmail);
     navigate("/");
   };
-
-  console.log(isLoggedIn);
 
   return (
     <div className="h-[10vh] flex items-center justify-between w-full">

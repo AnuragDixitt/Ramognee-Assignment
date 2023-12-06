@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Components/AuthContext";
 const BACKEND_URL = "http://127.0.0.1:5000";
 
 const Login = () => {
+  const { state, login } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -40,12 +42,12 @@ const Login = () => {
         console.log("Login successful");
         localStorage.setItem("Login", "true");
         localStorage.setItem("Email", formData.email);
+        login(formData.email); // Update the global state
         navigate("/products");
       } else {
         // Handle login error
         const data = await response.json();
         localStorage.setItem("Login", "false");
-
         console.error("Login error:", data.message);
       }
     } catch (error) {

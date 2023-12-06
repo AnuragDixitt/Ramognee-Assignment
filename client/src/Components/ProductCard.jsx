@@ -1,7 +1,7 @@
 import React from "react";
 import AddtoCartButton from "./AddtoCartButton";
 
-const ProductCard = ({ data }) => {
+const ProductCard = ({ data, cartCounts }) => {
   // console.log(data);
   return (
     <div className="productcard w-64 flex flex-col justify-center items-center  ">
@@ -25,7 +25,7 @@ const ProductCard = ({ data }) => {
         </div>
       </div>
       <div className="w-full h-36  overflow-hidden">
-        <AddtoCartButton data={data} />
+        <AddtoCartButton data={data} cartCounts={cartCounts[0]} />
       </div>
     </div>
   );

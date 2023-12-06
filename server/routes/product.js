@@ -100,4 +100,18 @@ router.post("/remove", async (req, res) => {
   }
 });
 
+// Get all product details
+router.get("/user_cart_details", async (req, res) => {
+  try {
+    const { email } = req.query;
+
+    // Check if the user exists
+    const user = await User.findOne({ email });
+    res.status(200).json(user.cart); // Assuming cart is an array
+  } catch (error) {
+    console.log("Error fetching cart count: ", error);
+    res.status(500).json({ message: "Error fetching cart count" });
+  }
+});
+
 module.exports = router;

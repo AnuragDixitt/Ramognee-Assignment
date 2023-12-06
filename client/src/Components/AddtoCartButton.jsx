@@ -1,8 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const AddtoCartButton = ({ data }) => {
+const AddtoCartButton = ({ data, cartCounts }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(cartCounts?.quantity);
+  // console.log(cartCounts);
+  // useEffect(() => {
+  //   const fetchCartCount = async () => {
+  //     try {
+  //       const email = localStorage.getItem("Email");
+  //       const info = {
+  //         userId: email,
+  //         id: data.id,
+  //       };
+
+  //       const response = await fetch("http://127.0.0.1:5000/api/products", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(info),
+  //       });
+
+  //       if (response.ok) {
+  //         const responseData = await response.json();
+  //         setCount(responseData.count);
+  //         console.log("Cart count updated successfully");
+  //       } else {
+  //         console.error("Error updating cart count");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error updating cart count: ", error);
+  //     }
+  //   };
+
+  //   fetchCartCount();
+  // }, [data.id]);
 
   const fetchAndUpdateCart = async (apiEndpoint) => {
     try {
