@@ -25,12 +25,13 @@ router.get("/", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   try {
-    const { email, id } = req.body;
+    const { userId, id } = req.body;
     // console.log(id);
-    // console.log(req.body);
+    console.log(req.body);
     // Check if the user exists
-    const user = await User.findOne(email);
-    // console.log(user);
+    const user = await User.findOne({ email: userId });
+
+    console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -61,10 +62,10 @@ router.post("/add", async (req, res) => {
 
 router.post("/remove", async (req, res) => {
   try {
-    const { email, id } = req.body;
+    const { userId, id } = req.body;
 
     // Check if the user exists
-    const user = await User.findOne(email);
+    const user = await User.findOne({ email: userId });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
