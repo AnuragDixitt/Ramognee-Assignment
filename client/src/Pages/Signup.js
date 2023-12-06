@@ -206,7 +206,7 @@ const Signup = () => {
           <div className="mt-1">
             <select
               name="country"
-              value={formData.country}
+              // value={formData.country}
               onChange={(e) => handleCountryChange(JSON.parse(e.target.value))}
               className="p-2 w-full border rounded-md"
               required
@@ -218,9 +218,9 @@ const Signup = () => {
                 </option>
               ))}
             </select>
-            {formData.country && (
+            {/* {formData.country && (
               <p className="mt-2 text-gray-600">{`Selected Country: ${formData.country}`}</p>
-            )}
+            )} */}
           </div>
         </div>
 
@@ -232,7 +232,7 @@ const Signup = () => {
             <div className="mt-1">
               <select
                 name="state"
-                value={formData.state}
+                // value={formData.state}
                 onChange={(e) => handleStateChange(JSON.parse(e.target.value))}
                 className="p-2 w-full border rounded-md"
                 required
@@ -244,9 +244,9 @@ const Signup = () => {
                   </option>
                 ))}
               </select>
-              {formData.state && (
+              {/* {formData.state && (
                 <p className="mt-2 text-gray-600">{`Selected State: ${formData.state}`}</p>
-              )}
+              )} */}
             </div>
           </div>
         )}
@@ -259,7 +259,7 @@ const Signup = () => {
             <div className="mt-1">
               <select
                 name="city"
-                value={formData.city}
+                // value={formData.city}
                 onChange={(e) => handleCityChange(JSON.parse(e.target.value))}
                 className="p-2 w-full border rounded-md"
                 required
@@ -271,9 +271,9 @@ const Signup = () => {
                   </option>
                 ))}
               </select>
-              {formData.city && (
+              {/* {formData.city && (
                 <p className="mt-2 text-gray-600">{`Selected City: ${formData.city}`}</p>
-              )}
+              )} */}
             </div>
           </div>
         )}
@@ -359,7 +359,7 @@ const Signup = () => {
           <input
             type="password"
             name="confirmPassword"
-            value={confirmPassword}
+            value={formData.confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="mt-1 p-2 w-full border rounded-md"
             required
