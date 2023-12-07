@@ -37,6 +37,9 @@ const Signup = () => {
   }, []);
 
   const handleCountryChange = (selectedCountry) => {
+    console.log(selectedCountry);
+    // const json_selectedCountry =
+    //   selectedCountry !== "" ? JSON.parse(selectedCountry) : "";
     setFormData((prevData) => ({
       ...prevData,
       country: selectedCountry.isoCode,
@@ -340,7 +343,7 @@ const Signup = () => {
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">
-            First Name
+            First Name *
           </label>
           <input
             type="text"
@@ -359,7 +362,7 @@ const Signup = () => {
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">
-            Last Name
+            Last Name *
           </label>
           <input
             type="text"
@@ -378,7 +381,7 @@ const Signup = () => {
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">
-            Email
+            Email *
           </label>
           <input
             type="email"
@@ -395,7 +398,7 @@ const Signup = () => {
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">
-            Address
+            Address *
           </label>
           <input
             type="text"
@@ -413,12 +416,15 @@ const Signup = () => {
         {/* Right Column */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">
-            Country
+            Country *
           </label>
           <div className="mt-1">
             <select
               name="country"
-              onChange={(e) => handleCountryChange(JSON.parse(e.target.value))}
+              onChange={(e) => {
+                if (e.target.value !== "")
+                  handleCountryChange(JSON.parse(e.target.value));
+              }}
               className="p-2 w-full border rounded-md"
               required
             >
@@ -438,12 +444,15 @@ const Signup = () => {
         {formData.country && (
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-600">
-              State
+              State *
             </label>
             <div className="mt-1">
               <select
                 name="state"
-                onChange={(e) => handleStateChange(JSON.parse(e.target.value))}
+                onChange={(e) => {
+                  if (e.target.value !== "")
+                    handleStateChange(JSON.parse(e.target.value));
+                }}
                 className="p-2 w-full border rounded-md"
                 required
               >
@@ -464,12 +473,15 @@ const Signup = () => {
         {formData.state && (
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-600">
-              City
+              City *
             </label>
             <div className="mt-1">
               <select
                 name="city"
-                onChange={(e) => handleCityChange(JSON.parse(e.target.value))}
+                onChange={(e) => {
+                  if (e.target.value !== "")
+                    handleCityChange(JSON.parse(e.target.value));
+                }}
                 className="p-2 w-full border rounded-md"
                 required
               >
@@ -489,7 +501,7 @@ const Signup = () => {
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">
-            Pincode
+            Pincode *
           </label>
           <input
             type="text"
@@ -507,7 +519,7 @@ const Signup = () => {
         <div className="mb-4">
           <div className="flex flex-col mt-1">
             <span className="text-sm font-medium text-gray-600 mb-1">
-              Mobile Number
+              Mobile Number *
             </span>
             <PhoneInput
               country={"in"} // Initial country
@@ -554,7 +566,7 @@ const Signup = () => {
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">
-            Password
+            Password *
           </label>
           <input
             type="password"
@@ -571,7 +583,7 @@ const Signup = () => {
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600">
-            Confirm Password
+            Confirm Password *
           </label>
           <input
             type="password"

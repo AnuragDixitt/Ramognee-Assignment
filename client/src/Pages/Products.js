@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import ProductCard from "../Components/ProductCard";
 
 const Products = () => {
@@ -52,13 +52,14 @@ const Products = () => {
     fetchData();
     fetchCartCounts();
   }, []);
+  const memoizedProducts = useMemo(() => products, [products]);
 
   return (
     <div className="h-[90vh] w-full flex flex-col items-center gap-10 ">
       <p className="text-6xl">Products</p>
 
       <div className="flex flex-wrap gap-10 items-center justify-center">
-        {products.map((product) => (
+        {memoizedProducts.map((product) => (
           <div key={product.id}>
             <ProductCard
               data={product}
@@ -72,4 +73,5 @@ const Products = () => {
     </div>
   );
 };
+
 export default Products;

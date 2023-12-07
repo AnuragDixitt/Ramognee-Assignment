@@ -4,38 +4,37 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const email = localStorage.getItem("Email");
 
-  const fetchCartDetails = async () => {
-    console.log(email);
-    try {
-      const response = await fetch(
-        `http://127.0.0.1:5000/api/products/user_cart_details?email=${email}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.ok) {
-        const responseData = await response.json();
-
-        console.log(responseData[0]);
-
-        setCartItems(responseData);
-        console.log("Cart details fetched successfully");
-        console.log(cartItems);
-      } else {
-        console.error("Error fetching cart details");
-      }
-    } catch (error) {
-      console.error("Error fetching cart details:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchCartDetails = async () => {
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:5000/api/products/user_cart_details?email=${email}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const responseData = await response.json();
+
+          console.log(responseData[0]);
+
+          setCartItems(responseData);
+          console.log("Cart details fetched successfully");
+          console.log(cartItems);
+        } else {
+          console.error("Error fetching cart details");
+        }
+      } catch (error) {
+        console.error("Error fetching cart details:", error);
+      }
+    };
+
     fetchCartDetails();
-  }, []);
+  }, [cartItems, email]);
 
   return (
     <div className="max-w-7xl mx-auto mt-8 p-6 bg-white shadow-md rounded-md">
