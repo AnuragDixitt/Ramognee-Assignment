@@ -1,70 +1,73 @@
-# Getting Started with Create React App
+# A&C Shopping Site - MERN Project 🛍️
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to A&C Shopping Site, My MERN (MongoDB, Express.js, React.js, Node.js) project
 
-## Available Scripts
+## Project Structure 🏗️
 
-In the project directory, you can run:
+The project is neatly organized into two main folders - `client` for the frontend and `server` for the backend. Follow the simple steps below to set up and run the application.
 
-### `npm start`
+### Setup 🛠️
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Install dependencies by running the following command in both the `client` and `server` folders:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+   ```
+   npm install
+   ```
 
-### `npm test`
+2. Create a `.env` file in the `server` folder with the following variables:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```
+   MONGODB_URI=your_mongodb_url
+   JWT_SECRET=your_jwt_secret
+   MAIL_USER=your_email_address
+   MAIL_PASS=your_email_password
+   PORT=your_server_port
+   ```
 
-### `npm run build`
+   Note: Replace placeholders with your actual MongoDB URL, JWT secret, email credentials, and server port.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Running the Application 🚀
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Move to the `client` folder and start the frontend:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```
+   cd client
+   npm start
+   ```
 
-### `npm run eject`
+   The frontend will be accessible at [http://localhost:3000](http://localhost:3000) by default.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. Move to the `server` folder and start the backend using nodemon:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```
+   cd server
+   nodemon server.js
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   The backend will be running at the specified port.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Functionality 🎉
 
-## Learn More
+### Sign Up Page ✍️
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The first page features a dynamic sign-up form with validation for each field. Upon successful submission, users are whisked away to the login page seamlessly. Any validation errors? No problem – clear messages guide you to the right inputs.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Login Page 🔐
 
-### Code Splitting
+After signing up, users access the login page with a built-in forgot password functionality. Experience the convenience of nodemailer for OTP-based password reset. Reset your password hassle-free and get redirected back to the login or signup page.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Product View Page 📦
 
-### Analyzing the Bundle Size
+Upon a successful login, dive into the captivating product view page. This page fetches real-time data from the [Fake Store API](https://fakestoreapi.com/products) and showcases product information on visually appealing cards. Enjoy the flexibility of adjusting quantities with intuitive increase and decrease buttons.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Cart View Page 🛒
 
-### Making a Progressive Web App
+Love a product? Add it to your cart! The cart view page provides detailed information for each item.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### State and City Filtering 🌍
 
-### Advanced Configuration
+The sign-up form goes the extra mile with dynamic filtering. State names adjust based on the selected country, and city names dynamically filter based on the chosen state.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Getting Started 🚀
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Follow the setup and running instructions to embark on your shopping adventure. Don't forget to customize the `.env` file with your configurations.

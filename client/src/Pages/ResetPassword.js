@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
   const [resetEmail, setResetEmail] = useState("");
   const [resetStep, setResetStep] = useState(0); // 0: Initial, 1: OTP Sent, 2: Password Reset
   const [newPassword, setNewPassword] = useState("");
   const [otp, setOtp] = useState("");
+  const navigate = useNavigate();
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -87,7 +89,6 @@ const ResetPassword = () => {
       );
       const result = await response.json();
       console.log(result);
-      // If password reset successfully, set resetStep to 2
       if (result.status === 1) {
         setResetStep(2);
         toast.success("Password reset successfully!", {
@@ -100,6 +101,8 @@ const ResetPassword = () => {
           progress: undefined,
           theme: "light",
         });
+        // redirect to login page
+        navigate("/login");
       } else {
         console.error("Error resetting password:", result.error);
         toast.error("Error resetting password!", {
