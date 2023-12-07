@@ -28,18 +28,9 @@ const Slider = () => {
           <SwiperSlide>
             <div className="w-full h-full">
               <img
-                src={SliderImage3}
-                alt=""
-                className="object-contain w-1/2 bg-black"
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="w-full h-full bg-black">
-              <img
                 src={SliderImage1}
                 alt=""
-                className="object-contain w-1/2 bg-black"
+                className="w-1/2 bg-black object-cover"
               />
             </div>
           </SwiperSlide>
@@ -48,7 +39,16 @@ const Slider = () => {
               <img
                 src={SliderImage2}
                 alt=""
-                className="object-contain w-1/2 bg-black"
+                className="object-cover w-1/2 bg-black"
+              />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="w-full h-full bg-black">
+              <img
+                src={SliderImage3}
+                alt=""
+                className="object-cover w-1/2 bg-black"
               />
             </div>
           </SwiperSlide>
