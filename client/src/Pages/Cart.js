@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -39,7 +40,14 @@ const Cart = () => {
   return (
     <div className="max-w-7xl mx-auto mt-8 p-6 bg-white shadow-md rounded-md">
       <h2 className="text-3xl font-bold mb-6">Your Shopping Cart</h2>
-
+      {cartItems.length === 0 && (
+        <div className="text-xl font-semibold grid justify-center">
+          Your cart is empty. Add some items to your cart to view them here.
+          <Link to="/products" className="text-blue-500">
+            Products
+          </Link>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cartItems.map((item) => (
           <div

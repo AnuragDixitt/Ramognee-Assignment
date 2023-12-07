@@ -267,8 +267,8 @@ const Signup = () => {
 
         if (response.ok) {
           toast.success("User registered successfully", {
-            position: "top-center",
-            autoClose: 5000,
+            position: "bottom-right",
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -280,8 +280,8 @@ const Signup = () => {
         } else {
           const data = await response.json();
           toast.error("Registration error", {
-            position: "top-center",
-            autoClose: 5000,
+            position: "bottom-right",
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -293,21 +293,15 @@ const Signup = () => {
         }
       } catch (error) {
         toast.error("Error during registration", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          position: "bottom-right",
+          autoClose: 2000,
         });
         console.error("Error during registration:", error);
       }
     } else {
       toast.error("Server Error", {
-        position: "top-center",
-        autoClose: 5000,
+        position: "bottom-right",
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

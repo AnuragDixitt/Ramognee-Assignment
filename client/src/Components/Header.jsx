@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import ShoppingCartIcon from "../assets/cart.png"; // Import your cart icon
 import { useAuth } from "./AuthContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 const Header = () => {
   const { state, logout } = useAuth();
@@ -17,8 +17,8 @@ const Header = () => {
       logout(state.userEmail);
       navigate("/");
       toast.success("Logged Out Successfully", {
-        position: "top-center",
-        autoClose: 5000,
+        position: "bottom-right",
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -29,8 +29,8 @@ const Header = () => {
     } catch (error) {
       console.log("Logout failed", error);
       toast.error("Logout failed. Please try again", {
-        position: "top-center",
-        autoClose: 5000,
+        position: "bottom-right",
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -55,11 +55,7 @@ const Header = () => {
           {isLoggedIn && (
             <>
               <Link to="/cart">
-                <img
-                  src={ShoppingCartIcon}
-                  alt="cart-icon"
-                  className="w-8 cursor-pointer"
-                />
+                <ShoppingCartOutlinedIcon />
               </Link>
               <button onClick={handleLogout} className="cursor-pointer">
                 Logout

@@ -31,33 +31,21 @@ const ResetPassword = () => {
       if (result.status === 1) {
         setResetStep(1);
         toast.success("OTP sent successfully!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          position: "bottom-right",
+          autoClose: 2000,
         });
       } else {
         console.error("Error generating OTP:", result.error);
         toast.error("Account Does not exist", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          position: "bottom-right",
+          autoClose: 2000,
         });
       }
     } catch (error) {
       console.error("Error resetting password:", error);
       toast.error("Error resetting password!", {
-        position: "top-center",
-        autoClose: 5000,
+        position: "bottom-right",
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -92,35 +80,23 @@ const ResetPassword = () => {
       if (result.status === 1) {
         setResetStep(2);
         toast.success("Password reset successfully!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          position: "bottom-right",
+          autoClose: 2000,
         });
         // redirect to login page
         navigate("/login");
       } else {
         console.error("Error resetting password:", result.error);
         toast.error("Error resetting password!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          position: "bottom-right",
+          autoClose: 2000,
         });
       }
     } catch (error) {
       console.error("Error resetting password:", error);
       toast.error("Error resetting password!", {
-        position: "top-center",
-        autoClose: 5000,
+        position: "bottom-right",
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

@@ -41,14 +41,8 @@ const Login = () => {
         // Login successful
         console.log("Login successful");
         toast.success("Login successful", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+          position: "bottom-right",
+          autoClose: 2000,
         });
         localStorage.setItem("Login", "true");
         localStorage.setItem("Email", formData.email);
@@ -59,8 +53,8 @@ const Login = () => {
         const data = await response.json();
         localStorage.setItem("Login", "false");
         toast.error("Login failed. Please try again", {
-          position: "top-center",
-          autoClose: 5000,
+          position: "bottom-right",
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -72,8 +66,8 @@ const Login = () => {
       }
     } catch (error) {
       toast.error("Login failed. Please try again", {
-        position: "top-center",
-        autoClose: 5000,
+        position: "bottom-right",
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
