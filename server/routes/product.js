@@ -29,6 +29,7 @@ router.post("/add", async (req, res) => {
     // console.log(id);
     console.log(req.body);
     // Check if the user exists
+
     const user = await User.findOne({ email: userId });
 
     console.log(user);
@@ -112,6 +113,27 @@ router.get("/user_cart_details", async (req, res) => {
   } catch (error) {
     console.log("Error fetching cart count: ", error);
     res.status(500).json({ message: "Error fetching cart count" });
+  }
+});
+
+router.get("/cart", async (req, res) => {
+  const userEmail = req.query.email; // Assuming the email is passed as a query parameter
+
+  try {
+    // Find the user by email and populate the cart
+    const user = await User.findOne({ email: userEmail }).populate(
+      "cart.product",
+      "productName price"
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user.cart);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 

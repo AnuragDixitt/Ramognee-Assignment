@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Components/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const BACKEND_URL = "http://127.0.0.1:5000";
 
 const Login = () => {
@@ -40,6 +42,16 @@ const Login = () => {
       if (response.ok) {
         // Login successful
         console.log("Login successful");
+        toast.success("Login successful", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         localStorage.setItem("Login", "true");
         localStorage.setItem("Email", formData.email);
         login(formData.email); // Update the global state
@@ -48,9 +60,29 @@ const Login = () => {
         // Handle login error
         const data = await response.json();
         localStorage.setItem("Login", "false");
+        toast.error("Login failed. Please try again", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+          progress: undefined,
+        });
         console.error("Login error:", data.message);
       }
     } catch (error) {
+      toast.error("Login failed. Please try again", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        progress: undefined,
+      });
       console.error("Error during login:", error);
     }
   };

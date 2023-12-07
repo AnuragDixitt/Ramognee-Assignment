@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Country, State, City } from "country-state-city";
 import PhoneInput from "react-phone-input-2";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "react-phone-input-2/lib/style.css";
 
 const BACKEND_URL = "http://127.0.0.1:5000";
 
@@ -9,16 +12,16 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    user_type: "",
-    first_name: "",
-    last_name: "",
+    userType: "",
+    firstName: "",
+    lastName: "",
     email: "",
     address: "",
     country: "",
     state: "",
     city: "",
     pincode: "",
-    mobile_number: "",
+    mobileNumber: "",
     fax: "",
     phone: "",
     password: "",
@@ -27,7 +30,7 @@ const Signup = () => {
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     setCountries(Country.getAllCountries());
@@ -68,55 +71,248 @@ const Signup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
-    if (name === "password" || name === "confirmPassword") {
-      setConfirmPassword(value);
+
+    validateInput(name, value);
+  };
+
+  const validateInput = (name, value) => {
+    let errors = { ...formErrors };
+
+    switch (name) {
+      case "firstName":
+        if (!value.match(/^[a-zA-Z]+$/)) {
+          errors[name] = "Invalid first name. Please enter only letters.";
+        } else {
+          delete errors[name];
+        }
+        break;
+
+      case "lastName":
+        if (!value.match(/^[a-zA-Z]+$/)) {
+          errors[name] = "Invalid last name. Please enter only letters.";
+        } else {
+          delete errors[name];
+        }
+        break;
+
+      case "email":
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailRegex.test(value)) {
+          errors[name] = "Invalid email address.";
+        } else {
+          delete errors[name];
+        }
+        break;
+
+      case "password":
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+        if (!passwordRegex.test(value)) {
+          errors[name] =
+            "Password must contain at least one number, one uppercase letter, one lowercase letter, and be at least 8 characters long.";
+        } else {
+          delete errors[name];
+        }
+        break;
+
+      case "confirmPassword":
+        if (value !== formData.password) {
+          errors[name] = "Passwords do not match.";
+        } else {
+          delete errors[name];
+        }
+        break;
+
+      case "address":
+        if (value.length < 5) {
+          errors[name] = "Enter a valid address.";
+        } else {
+          delete errors[name];
+        }
+        break;
+
+      case "country":
+        if (!value) {
+          errors[name] = "Select a country.";
+        } else {
+          delete errors[name];
+        }
+        break;
+
+      case "state":
+        if (!value) {
+          errors[name] = "Select a state.";
+        } else {
+          delete errors[name];
+        }
+        break;
+
+      case "city":
+        if (!value) {
+          errors[name] = "Select a city.";
+        } else {
+          delete errors[name];
+        }
+        break;
+
+      case "pincode":
+        if (value.length < 6) {
+          errors[name] = "Enter a valid pincode.";
+        } else {
+          delete errors[name];
+        }
+        break;
+
+      case "mobileNumber":
+        if (value.length < 10) {
+          errors[name] = "Enter a valid mobile number.";
+        } else {
+          delete errors[name];
+        }
+        break;
+
+      default:
+        break;
     }
+
+    setFormErrors(errors);
+  };
+
+  const validateForm = () => {
+    let errors = {};
+
+    // Validate first name
+    if (!formData.firstName.match(/^[a-zA-Z]+$/)) {
+      errors.firstName = "Invalid first name. Please enter only letters.";
+    }
+
+    // Validate last name
+    if (!formData.lastName.match(/^[a-zA-Z]+$/)) {
+      errors.lastName = "Invalid last name. Please enter only letters.";
+    }
+
+    // Validate email
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(formData.email)) {
+      errors.email = "Invalid email address.";
+    }
+
+    // Validate password (at least one number, one uppercase, one lowercase, and at least 8 characters)
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    if (!passwordRegex.test(formData.password)) {
+      errors.password =
+        "Password must contain at least one number, one uppercase letter, one lowercase letter, and be at least 8 characters long.";
+    }
+
+    // Validate password and confirmPassword match
+    if (formData.password !== formData.confirmPassword) {
+      errors.confirmPassword = "Passwords do not match.";
+    }
+
+    // Validate address
+    if (formData.address.length < 5) {
+      errors.address = "Enter a valid address.";
+    }
+
+    // Validate country
+    if (!formData.country) {
+      errors.country = "Select a country.";
+    }
+
+    // Validate state
+    if (!formData.state) {
+      errors.state = "Select a state.";
+    }
+
+    // Validate city
+    if (!formData.city) {
+      errors.city = "Select a city.";
+    }
+
+    // Validate pincode
+    if (formData.pincode.length < 6) {
+      errors.pincode = "Enter a valid pincode.";
+    }
+
+    // Validate mobile number
+    if (formData.mobileNumber.length < 10) {
+      errors.mobileNumber = "Enter a valid mobile number.";
+    }
+
+    setFormErrors(errors);
+
+    // Return true if there are no errors
+    return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateFormData()) {
-      return;
-    }
+    if (validateForm()) {
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/auth/signup`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
 
-    try {
-      const response = await fetch(`${BACKEND_URL}/api/auth/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        console.log("User registered successfully");
-        navigate("/login");
-      } else {
-        const data = await response.json();
-        console.error("Registration error:", data.message);
+        if (response.ok) {
+          toast.success("User registered successfully", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          navigate("/login");
+        } else {
+          const data = await response.json();
+          toast.error("Registration error", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          console.error("Registration error:", data.message);
+        }
+      } catch (error) {
+        toast.error("Error during registration", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        console.error("Error during registration:", error);
       }
-    } catch (error) {
-      console.error("Error during registration:", error);
+    } else {
+      toast.error("Server Error", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
-  };
-
-  const validateFormData = () => {
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!emailRegex.test(formData.email)) {
-      alert("Invalid email address");
-      return false;
-    }
-    if (formData.password !== confirmPassword) {
-      alert("Password and confirm password do not match");
-      return false;
-    }
-
-    return true;
   };
 
   return (
@@ -151,9 +347,14 @@ const Signup = () => {
             name="firstName"
             value={formData.firstName}
             onChange={handleChange}
-            className="mt-1 p-2 w-full border rounded-md"
+            className={`mt-1 p-2 w-full border rounded-md ${
+              formErrors.firstName ? "border-red-500" : ""
+            }`}
             required
           />
+          {formErrors.firstName && (
+            <p className="text-red-500 mt-1">{formErrors.firstName}</p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -165,9 +366,14 @@ const Signup = () => {
             name="lastName"
             value={formData.lastName}
             onChange={handleChange}
-            className="mt-1 p-2 w-full border rounded-md"
+            className={`mt-1 p-2 w-full border rounded-md ${
+              formErrors.lastName ? "border-red-500" : ""
+            }`}
             required
           />
+          {formErrors.lastName && (
+            <p className="text-red-500 mt-1">{formErrors.lastName}</p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -182,6 +388,9 @@ const Signup = () => {
             className="mt-1 p-2 w-full border rounded-md"
             required
           />
+          {formErrors.email && (
+            <p className="text-red-500 mt-1">{formErrors.email}</p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -196,6 +405,9 @@ const Signup = () => {
             className="mt-1 p-2 w-full border rounded-md"
             required
           />
+          {formErrors.address && (
+            <p className="text-red-500 mt-1">{formErrors.address}</p>
+          )}
         </div>
 
         {/* Right Column */}
@@ -218,9 +430,9 @@ const Signup = () => {
                 </option>
               ))}
             </select>
-            {/* {formData.country && (
-              <p className="mt-2 text-gray-600">{`Selected Country: ${formData.country}`}</p>
-            )} */}
+            {formErrors.country && (
+              <p className="text-red-500 mt-1">{formErrors.country}</p>
+            )}
           </div>
         </div>
 
@@ -232,7 +444,6 @@ const Signup = () => {
             <div className="mt-1">
               <select
                 name="state"
-                // value={formData.state}
                 onChange={(e) => handleStateChange(JSON.parse(e.target.value))}
                 className="p-2 w-full border rounded-md"
                 required
@@ -244,9 +455,9 @@ const Signup = () => {
                   </option>
                 ))}
               </select>
-              {/* {formData.state && (
-                <p className="mt-2 text-gray-600">{`Selected State: ${formData.state}`}</p>
-              )} */}
+              {formErrors.state && (
+                <p className="text-red-500 mt-1">{formErrors.state}</p>
+              )}
             </div>
           </div>
         )}
@@ -259,7 +470,6 @@ const Signup = () => {
             <div className="mt-1">
               <select
                 name="city"
-                // value={formData.city}
                 onChange={(e) => handleCityChange(JSON.parse(e.target.value))}
                 className="p-2 w-full border rounded-md"
                 required
@@ -271,9 +481,9 @@ const Signup = () => {
                   </option>
                 ))}
               </select>
-              {/* {formData.city && (
-                <p className="mt-2 text-gray-600">{`Selected City: ${formData.city}`}</p>
-              )} */}
+              {formErrors.city && (
+                <p className="text-red-500 mt-1">{formErrors.city}</p>
+              )}
             </div>
           </div>
         )}
@@ -290,6 +500,9 @@ const Signup = () => {
             className="mt-1 p-2 w-full border rounded-md"
             required
           />
+          {formErrors.pincode && (
+            <p className="text-red-500 mt-1">{formErrors.pincode}</p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -300,17 +513,19 @@ const Signup = () => {
             <PhoneInput
               country={"in"} // Initial country
               value={formData.mobileNumber}
-              onChange={(value, country, e, formattedValue) =>
+              onChange={(value) => {
                 setFormData((prevData) => ({
                   ...prevData,
                   mobileNumber: value,
-                  isdCode: country ? country.dialCode : "",
-                }))
-              }
+                }));
+              }}
               inputClass="p-2 border rounded-md w-full mt-1" // Tailwind CSS styling for the input
               containerClass="relative" // Container class
               dropdownClass="rounded-md border shadow-md" // Dropdown class
             />
+            {formErrors.mobileNumber && (
+              <p className="text-red-500 mt-1">{formErrors.mobileNumber}</p>
+            )}
           </div>
         </div>
 
@@ -350,6 +565,9 @@ const Signup = () => {
             className="mt-1 p-2 w-full border rounded-md"
             required
           />
+          {formErrors.password && (
+            <p className="text-red-500 mt-1">{formErrors.password}</p>
+          )}
         </div>
 
         <div className="mb-4">
@@ -360,10 +578,13 @@ const Signup = () => {
             type="password"
             name="confirmPassword"
             value={formData.confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={handleChange}
             className="mt-1 p-2 w-full border rounded-md"
             required
           />
+          {formErrors.confirmPassword && (
+            <p className="text-red-500 mt-1">{formErrors.confirmPassword}</p>
+          )}
         </div>
 
         <div className="col-span-2">

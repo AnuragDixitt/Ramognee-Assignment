@@ -3,18 +3,43 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import ShoppingCartIcon from "../assets/cart.png"; // Import your cart icon
 import { useAuth } from "./AuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Header = () => {
   const { state, logout } = useAuth();
-  console.log(state);
   const isLoggedIn = state.isLoggedIn;
   const [userProducts, setUserProducts] = useState([]); // Assuming you have a state for user's products
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.setItem("Login", "false");
-    logout(state.userEmail);
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      localStorage.setItem("Login", "false");
+      logout(state.userEmail);
+      navigate("/");
+      toast.success("Logged Out Successfully", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } catch (error) {
+      console.log("Logout failed", error);
+      toast.error("Logout failed. Please try again", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        progress: undefined,
+      });
+    }
   };
 
   return (
