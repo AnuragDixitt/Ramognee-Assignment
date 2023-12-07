@@ -1,15 +1,13 @@
 import React from "react";
 import { useRef, useState } from "react";
-// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import SliderImage from "../assets/SliderImage1.jpg";
-// import required modules
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import SliderImage1 from "../assets/SliderImage1.jpg";
+import SliderImage2 from "../assets/SliderImage2.jpg";
+import SliderImage3 from "../assets/SliderImage3.jpg";
+import { Autoplay, Pagination } from "swiper/modules";
 const Slider = () => {
   return (
     <div className="flex justify-center">
@@ -30,7 +28,7 @@ const Slider = () => {
           <SwiperSlide>
             <div className="w-full h-full">
               <img
-                src="https://images.bewakoof.com/uploads/grid/app/DOTW-Split-banner-Desktop-Men--15--1701671265.jpg"
+                src={SliderImage3}
                 alt=""
                 className="object-contain w-1/2 bg-black"
               />
@@ -38,12 +36,20 @@ const Slider = () => {
           </SwiperSlide>
           <SwiperSlide>
             <div className="w-full h-full bg-black">
-              <img src={SliderImage} alt=""  className="object-contain w-1/2 bg-black"/>
+              <img
+                src={SliderImage1}
+                alt=""
+                className="object-contain w-1/2 bg-black"
+              />
             </div>
           </SwiperSlide>
           <SwiperSlide>
-          <div className="w-full h-full bg-black">
-              <img src={SliderImage} alt=""  className="object-contain w-1/2 bg-black"/>
+            <div className="w-full h-full bg-black">
+              <img
+                src={SliderImage2}
+                alt=""
+                className="object-contain w-1/2 bg-black"
+              />
             </div>
           </SwiperSlide>
         </Swiper>

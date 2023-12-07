@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Country, State, City } from "country-state-city";
 import PhoneInput from "react-phone-input-2";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-phone-input-2/lib/style.css";
 
@@ -418,7 +418,6 @@ const Signup = () => {
           <div className="mt-1">
             <select
               name="country"
-              // value={formData.country}
               onChange={(e) => handleCountryChange(JSON.parse(e.target.value))}
               className="p-2 w-full border rounded-md"
               required
@@ -519,9 +518,9 @@ const Signup = () => {
                   mobileNumber: value,
                 }));
               }}
-              inputClass="p-2 border rounded-md w-full mt-1" // Tailwind CSS styling for the input
-              containerClass="relative" // Container class
-              dropdownClass="rounded-md border shadow-md" // Dropdown class
+              inputClass="p-2 border rounded-md w-full mt-1"
+              containerClass="relative"
+              dropdownClass="rounded-md border shadow-md"
             />
             {formErrors.mobileNumber && (
               <p className="text-red-500 mt-1">{formErrors.mobileNumber}</p>

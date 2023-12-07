@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import ShoppingCartIcon from "../assets/cart.png"; // Import your cart icon
 import { useAuth } from "./AuthContext";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Header = () => {
   const { state, logout } = useAuth();
   const isLoggedIn = state.isLoggedIn;
-  const [userProducts, setUserProducts] = useState([]); // Assuming you have a state for user's products
   const navigate = useNavigate();
 
   const handleLogout = async () => {

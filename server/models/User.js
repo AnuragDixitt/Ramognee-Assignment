@@ -21,6 +21,8 @@ const userSchema = new mongoose.Schema({
     {
       product: { type: Number, ref: "Product" },
       quantity: { type: Number, default: 1 },
+      price: { type: Number },
+      image: { type: String },
     },
   ],
 });

@@ -8,12 +8,6 @@ const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const isPasswordValid = (password) => {
-  //Password should have at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character
-  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-  return passwordRegex.test(password);
-};
-
 // Sign up
 router.post("/signup", async (req, res) => {
   try {

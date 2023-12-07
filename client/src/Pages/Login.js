@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Components/AuthContext";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const BACKEND_URL = "http://127.0.0.1:5000";
 
 const Login = () => {
-  const { state, login } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -24,12 +24,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Frontend validation
     if (!validateFormData()) {
       return;
     }
 
-    // Make a POST request to your backend for login
     try {
       const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: "POST",
@@ -89,7 +87,6 @@ const Login = () => {
 
   // Frontend validation function
   const validateFormData = () => {
-    // Example validation for email format
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailRegex.test(formData.email)) {
       alert("Invalid email address");
@@ -100,8 +97,6 @@ const Login = () => {
   };
 
   const handleForgotPassword = () => {
-    // Implement the logic for forgot password
-    // console.log("Forgot Password clicked");
     navigate("/reset-password");
   };
 

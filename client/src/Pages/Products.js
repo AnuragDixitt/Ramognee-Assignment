@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ProductCard from "../Components/ProductCard";
-import { useAuth } from "../Components/AuthContext";
-// import { fetchProducts } from '../lib/Calls';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -33,6 +31,7 @@ const Products = () => {
         console.error("Error updating cart count: ", error);
       }
     };
+
     // Function to fetch data and update state
     const fetchData = async () => {
       try {
@@ -53,7 +52,7 @@ const Products = () => {
     fetchData();
     fetchCartCounts();
   }, []);
-  // console.log(cartCounts?.filter((cart) => cart.product === 1));
+
   return (
     <div className="h-[90vh] w-full flex flex-col items-center gap-10 ">
       <p className="text-6xl">Products</p>
